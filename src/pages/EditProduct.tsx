@@ -16,6 +16,7 @@ const EditProduct = () => {
   const navigate = useNavigate();
 
   const [product, setProduct] = useState<Omit<Product, "id"> | null>(null);
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     const products: Product[] = JSON.parse(
@@ -63,8 +64,9 @@ const EditProduct = () => {
     );
 
     localStorage.setItem("products", JSON.stringify(updatedProducts));
+    setMessage(" product edited succesfully")
 
-    navigate("/"); // go back to products
+    setTimeout(()=>{navigate("/")},1000) // go back to products
   };
 
   return (
@@ -135,6 +137,8 @@ const EditProduct = () => {
               </Stack>
             </Stack>
           </form>
+          {message}
+
         </CardContent>
       </Card>
     </Container>

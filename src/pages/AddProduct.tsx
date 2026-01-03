@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Button,
   TextField,
@@ -17,6 +18,10 @@ export const AddProduct = () => {
     category: "",
     image: "",
   });
+
+  const [ message, setMessage]= useState("")
+
+  const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -50,6 +55,9 @@ export const AddProduct = () => {
       category: "",
       image: "",
     });
+    setMessage("new product succesfully added")
+
+    setTimeout(()=>{navigate('/')}, 1000)
   };
 
   return (
@@ -132,6 +140,7 @@ export const AddProduct = () => {
                 </Button>
               </Stack>
             </Stack>
+            {message}
           </form>
         </CardContent>
       </Card>
