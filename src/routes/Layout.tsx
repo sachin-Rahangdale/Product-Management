@@ -1,27 +1,43 @@
-import React from 'react'
-import { Outlet,Link } from 'react-router-dom'
+import { AppBar, Toolbar, Typography, Button, Box } from "@mui/material";
+import { Link, Outlet } from "react-router-dom";
 
 const Layout = () => {
   return (
     <>
-    <div>Layout</div>
-    <Outlet/>
-    <ul>
-        <li>
-          <Link to ={'/'}>Home</Link>
-        </li>
-        <li>
-          <Link to ={'/add'}> Add Product</Link>
-        </li>
-        <li>
-          <Link to ={'/edit'}> Edit Product</Link>
-        </li>
-        <li>
-          <Link to ={'/show'}> show Product</Link>
-        </li>
-      </ul>
-    </>
-  )
-}
+      <AppBar
+        position="static"
+        sx={{
+          backgroundColor: "orange", // 👈 ORANGE
+        }}
+      >
+        <Toolbar>
+          <Typography variant="h6" sx={{ flexGrow: 1, fontWeight: "bold" }}>
+            My App
+          </Typography>
 
-export default Layout
+          <Button
+            sx={{ color: "white", fontWeight: "bold" }}
+            component={Link}
+            to="/"
+          >
+            Home
+          </Button>
+
+          <Button
+            sx={{ color: "white", fontWeight: "bold" }}
+            component={Link}
+            to="/add"
+          >
+            Add Product
+          </Button>
+        </Toolbar>
+      </AppBar>
+
+      <Box sx={{ padding: 3 }}>
+        <Outlet />
+      </Box>
+    </>
+  );
+};
+
+export default Layout;

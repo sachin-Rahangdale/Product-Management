@@ -1,27 +1,75 @@
+
+import { useState } from "react";
 import type { Product } from "./Interface/product";
+import { Link } from "react-router-dom";
+import {
+  Card,
+  CardContent,
+  CardMedia,
+  Typography,
+  Button,
+  Grid,
+  Stack,
+} from "@mui/material";
 
 const Products = () => {
-  const storedProducts = localStorage.getItem("products");
+  const [products, setProducts] = useState<Product[]>(
+    JSON.parse(localStorage.getItem("products") || "[]")
+  );
 
-  const products: Product[] = storedProducts
-    ? JSON.parse(storedProducts)
-    : [];
+  const deleteProduct = (id: number) => {
+    const updatedProducts = products.filter((p) => p.id !== id);
+    setProducts(updatedProducts);
+    localStorage.setItem("products", JSON.stringify(updatedProducts));
+  };
 
   return (
-    <div>
-      <h2>Product List</h2>
-
-      {products.length === 0 && <p>No products found</p>}
-
+    <Grid container spacing={3} padding={3}>
       {products.map((product) => (
-        <div key={product.id} style={{ border: "1px solid gray", margin: "10px", padding: "10px" }}>
-          <h3>{product.name}</h3>
-          <p>Price: ₹{product.price}</p>
-          <p>Category: {product.category}</p>
-          <img src={product.image} alt={product.name} width="100" />
-        </div>
+        <Grid item xs={12} sm={6} md={4} key={product.id}>
+          <Card sx={{ borderRadius: 3, boxShadow: 4 }}>
+            <CardMedia
+              component="img"
+              height="180"
+              image={product.image}
+              alt={product.name}
+            />
+
+            <CardContent>
+              <Typography variant="h6" fontWeight="bold">
+                {product.name}
+              </Typography>
+
+              <Typography color="text.secondary">
+                Category: {product.category}
+              </Typography>
+
+              <Typography color="primary" fontWeight="bold" mt={1}>
+                ₹ {product.price}
+              </Typography>
+
+              <Stack direction="row" spacing={2} mt={2}>
+                <Button
+                  variant="contained"
+                  component={Link}
+                  to={`/edit/${product.id}`}
+                >
+                  Edit
+                </Button>
+
+                <Button
+                  variant="outlined"
+                  color="error"
+                  onClick={() => deleteProduct(product.id)}
+                >
+                  Delete
+                </Button>
+              </Stack>
+            </CardContent>
+          </Card>
+        </Grid>
       ))}
-    </div>
+    </Grid>
   );
 };
 
